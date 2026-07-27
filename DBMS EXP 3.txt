@@ -1,0 +1,102 @@
+mysql> CREATE DATABASE DBMSLAB;
+ERROR 1007 (HY000): Can't create database 'dbmslab'; database exists
+mysql> create database dbmslab;
+ERROR 1007 (HY000): Can't create database 'dbmslab'; database exists
+mysql> USE DbmsLab;
+Database changed
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_dbmslab |
++-------------------+
+| course            |
+| department        |
+| faculty           |
+| student           |
++-------------------+
+4 rows in set (0.08 sec)
+
+mysql> DESC STUDENT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| regNo    | int         | NO   | PRI | NULL    |       |
+| Name     | varchar(15) | YES  |     | NULL    |       |
+| Gender   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| MobileNo | bigint      | YES  |     | NULL    |       |
+| City     | varchar(15) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> INSERT INTO STUDENT
+    -> VALUES (101,'Ravi','M','2004-05-12',9876543210,'Hyderabad');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO STUDENT
+    -> VALUES (102,'Priya','F','2005-08-20',9876543211,'Vijayawada');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO STUDENT
+    -> VALUES (103,'Rahul','M','2004-10-15',9876543212,'Guntur');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM STUDENT;
++-------+-------+--------+------------+------------+------------+
+| regNo | Name  | Gender | DOB        | MobileNo   | City       |
++-------+-------+--------+------------+------------+------------+
+|   101 | Ravi  | M      | 2004-05-12 | 9876543210 | Hyderabad  |
+|   102 | Priya | F      | 2005-08-20 | 9876543211 | Vijayawada |
+|   103 | Rahul | M      | 2004-10-15 | 9876543212 | Guntur     |
++-------+-------+--------+------------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO FACULTY
+    -> VALUES ('F101','Ramesh','M','1985-03-15','2012-06-01',9876500001,'CSE');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO FACULTY
+    -> VALUES ('F102','Anitha','F','1988-07-20','2015-08-10',9876500002,'ECE');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM FACULTY;
++-------+---------+--------+------------+------------+------------+------+
+| FacNo | FacName | Gender | DOB        | DateOfJoin | MobileNo   | Dept |
++-------+---------+--------+------------+------------+------------+------+
+| F101  | Ramesh  | M      | 1985-03-15 | 2012-06-01 | 9876500001 | CSE  |
+| F102  | Anitha  | F      | 1988-07-20 | 2015-08-10 | 9876500002 | ECE  |
++-------+---------+--------+------------+------------+------------+------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO DEPARTMENT
+    -> VALUES ('D01','CSE','F101');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPARTMENT
+    -> VALUES ('D02','ECE','F102');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM DEPARTMENT;
++--------+----------+----------+
+| DeptNo | DeptName | DeptHead |
++--------+----------+----------+
+| D01    | CSE      | F101     |
+| D02    | ECE      | F102     |
++--------+----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO COURSE
+    -> VALUES ('C01','DBMS','T','3','H101','F101');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO COURSE
+    -> VALUES ('C02','Python','P','2','H102','F102');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM COURSE;
++----------+------------+------------+-------+--------+-------+
+| CourseNo | CourseDesc | CourseType | SemNo | HallNo | FacNo |
++----------+------------+------------+-------+--------+-------+
+| C01      | DBMS       | T          | 3     | H101   | F101  |
+| C02      | Python     | P          | 2     | H102   | F102  |
++----------+------------+------------+-------+--------+-------+
+2 rows in set (0.00 sec)

@@ -1,0 +1,190 @@
+mysql> CREATE DATABASE college;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE college;
+Database changed
+mysql> CREATE TABLE student
+    -> (
+    ->     Reg_no BIGINT PRIMARY KEY,
+    ->     Name VARCHAR(30),
+    ->     Gender CHAR(1),
+    ->     DOB DATE,
+    ->     Mobile_no BIGINT,
+    ->     City VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> DESC student;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Reg_no    | bigint      | NO   | PRI | NULL    |       |
+| Name      | varchar(30) | YES  |     | NULL    |       |
+| Gender    | char(1)     | YES  |     | NULL    |       |
+| DOB       | date        | YES  |     | NULL    |       |
+| Mobile_no | bigint      | YES  |     | NULL    |       |
+| City      | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> INSERT INTO student VALUES
+    -> (192211151,'mohan','m','2004-01-12',990826973,'mtr'),
+    -> (192211152,'raju','m','2005-02-13',990865894,'mgr'),
+    -> (192211153,'ramesh','m','2005-03-14',998263548,'mmr'),
+    -> (192211154,'ram','m','2006-04-14',998269279,'mgr'),
+    -> (192211155,'sani','m','2007-05-17',998269245,'hyt'),
+    -> (192219184,'siri','f','2004-01-12',891938534,'chittoor');
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM student;
++-----------+--------+--------+------------+-----------+----------+
+| Reg_no    | Name   | Gender | DOB        | Mobile_no | City     |
++-----------+--------+--------+------------+-----------+----------+
+| 192211151 | mohan  | m      | 2004-01-12 | 990826973 | mtr      |
+| 192211152 | raju   | m      | 2005-02-13 | 990865894 | mgr      |
+| 192211153 | ramesh | m      | 2005-03-14 | 998263548 | mmr      |
+| 192211154 | ram    | m      | 2006-04-14 | 998269279 | mgr      |
+| 192211155 | sani   | m      | 2007-05-17 | 998269245 | hyt      |
+| 192219184 | siri   | f      | 2004-01-12 | 891938534 | chittoor |
++-----------+--------+--------+------------+-----------+----------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE TABLE faculty
+    -> (
+    ->     facno BIGINT PRIMARY KEY,
+    ->     facname VARCHAR(30),
+    ->     Gender CHAR(1),
+    ->     DOB DATE,
+    ->     DOJ DATE,
+    ->     Mobileno BIGINT,
+    ->     deptno VARCHAR(10),
+    ->     resigned CHAR(1),
+    ->     age INT
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DESC faculty;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| facno    | bigint      | NO   | PRI | NULL    |       |
+| facname  | varchar(30) | YES  |     | NULL    |       |
+| Gender   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| DOJ      | date        | YES  |     | NULL    |       |
+| Mobileno | bigint      | YES  |     | NULL    |       |
+| deptno   | varchar(10) | YES  |     | NULL    |       |
+| resigned | char(1)     | YES  |     | NULL    |       |
+| age      | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+9 rows in set (0.01 sec)
+
+mysql> INSERT INTO faculty VALUES
+    -> (1922113,'ramesh','m','2005-03-14','2014-12-20',998263548,'mtr','y',45),
+    -> (1922115,'star','f','2007-05-17','2016-09-20',998269245,'hyt','n',58),
+    -> (1191151,'mohan','m','2004-01-12','2010-05-23',990826973,'mtr','y',60),
+    -> (1192212,'raju','m','2005-02-13','2009-06-25',990865894,'mgr','y',45);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM faculty;
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| facno   | facname | Gender | DOB        | DOJ        | Mobileno  | deptno | resigned | age  |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| 1191151 | mohan   | m      | 2004-01-12 | 2010-05-23 | 990826973 | mtr    | y        |   60 |
+| 1192212 | raju    | m      | 2005-02-13 | 2009-06-25 | 990865894 | mgr    | y        |   45 |
+| 1922113 | ramesh  | m      | 2005-03-14 | 2014-12-20 | 998263548 | mtr    | y        |   45 |
+| 1922115 | star    | f      | 2007-05-17 | 2016-09-20 | 998269245 | hyt    | n        |   58 |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE student
+    -> SET Name='ram'
+    -> WHERE Reg_no=192211154;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> SELECT * FROM student;
++-----------+--------+--------+------------+-----------+----------+
+| Reg_no    | Name   | Gender | DOB        | Mobile_no | City     |
++-----------+--------+--------+------------+-----------+----------+
+| 192211151 | mohan  | m      | 2004-01-12 | 990826973 | mtr      |
+| 192211152 | raju   | m      | 2005-02-13 | 990865894 | mgr      |
+| 192211153 | ramesh | m      | 2005-03-14 | 998263548 | mmr      |
+| 192211154 | ram    | m      | 2006-04-14 | 998269279 | mgr      |
+| 192211155 | sani   | m      | 2007-05-17 | 998269245 | hyt      |
+| 192219184 | siri   | f      | 2004-01-12 | 891938534 | chittoor |
++-----------+--------+--------+------------+-----------+----------+
+6 rows in set (0.00 sec)
+
+mysql> DELETE FROM faculty
+    -> WHERE resigned='n';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM faculty;
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| facno   | facname | Gender | DOB        | DOJ        | Mobileno  | deptno | resigned | age  |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| 1191151 | mohan   | m      | 2004-01-12 | 2010-05-23 | 990826973 | mtr    | y        |   60 |
+| 1192212 | raju    | m      | 2005-02-13 | 2009-06-25 | 990865894 | mgr    | y        |   45 |
+| 1922113 | ramesh  | m      | 2005-03-14 | 2014-12-20 | 998263548 | mtr    | y        |   45 |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE faculty
+    -> SET age=59
+    -> WHERE facname='mohan';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM faculty;
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| facno   | facname | Gender | DOB        | DOJ        | Mobileno  | deptno | resigned | age  |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| 1191151 | mohan   | m      | 2004-01-12 | 2010-05-23 | 990826973 | mtr    | y        |   59 |
+| 1192212 | raju    | m      | 2005-02-13 | 2009-06-25 | 990865894 | mgr    | y        |   45 |
+| 1922113 | ramesh  | m      | 2005-03-14 | 2014-12-20 | 998263548 | mtr    | y        |   45 |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+3 rows in set (0.00 sec)
+
+mysql> DELETE FROM faculty
+    -> WHERE age>65;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM faculty;
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| facno   | facname | Gender | DOB        | DOJ        | Mobileno  | deptno | resigned | age  |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| 1191151 | mohan   | m      | 2004-01-12 | 2010-05-23 | 990826973 | mtr    | y        |   59 |
+| 1192212 | raju    | m      | 2005-02-13 | 2009-06-25 | 990865894 | mgr    | y        |   45 |
+| 1922113 | ramesh  | m      | 2005-03-14 | 2014-12-20 | 998263548 | mtr    | y        |   45 |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++-----------+--------+--------+------------+-----------+----------+
+| Reg_no    | Name   | Gender | DOB        | Mobile_no | City     |
++-----------+--------+--------+------------+-----------+----------+
+| 192211151 | mohan  | m      | 2004-01-12 | 990826973 | mtr      |
+| 192211152 | raju   | m      | 2005-02-13 | 990865894 | mgr      |
+| 192211153 | ramesh | m      | 2005-03-14 | 998263548 | mmr      |
+| 192211154 | ram    | m      | 2006-04-14 | 998269279 | mgr      |
+| 192211155 | sani   | m      | 2007-05-17 | 998269245 | hyt      |
+| 192219184 | siri   | f      | 2004-01-12 | 891938534 | chittoor |
++-----------+--------+--------+------------+-----------+----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM faculty;
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| facno   | facname | Gender | DOB        | DOJ        | Mobileno  | deptno | resigned | age  |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+| 1191151 | mohan   | m      | 2004-01-12 | 2010-05-23 | 990826973 | mtr    | y        |   59 |
+| 1192212 | raju    | m      | 2005-02-13 | 2009-06-25 | 990865894 | mgr    | y        |   45 |
+| 1922113 | ramesh  | m      | 2005-03-14 | 2014-12-20 | 998263548 | mtr    | y        |   45 |
++---------+---------+--------+------------+------------+-----------+--------+----------+------+
+3 rows in set (0.00 sec)
+
+mysql> Result:
+    -> The Data Manipulation Language (DML) commands UPDATE and DELETE were successfully executed on the STUDENT and FACULTY tables.
+    ->
