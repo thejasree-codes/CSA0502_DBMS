@@ -1,0 +1,144 @@
+mysql> CREATE DATABASE DBMSLAB;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE DBMSLAB;
+Database changed
+mysql> SELECT DATABASE();
++------------+
+| DATABASE() |
++------------+
+| dbmslab    |
++------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE STUDENT(
+    -> regNo INT,
+    -> Name VARCHAR(15),
+    -> Gender CHAR(1),
+    -> DOB DATE,
+    -> MobileNo BIGINT,
+    -> City VARCHAR(15)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> CREATE TABLE FACULTY (
+    ->     FacNo VARCHAR(4),
+    ->     FacName VARCHAR(15),
+    ->     Gender CHAR(1),
+    ->     DOB DATE,
+    ->     DateOfJoin DATE,
+    ->     MobileNo BIGINT
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE DEPARTMENT (
+    -> DeptNo VARCHAR(4),
+    -> DeptName VARCHAR(15),
+    -> DeptHead VARCHAR(4)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE COURSE (
+    -> CourseNo VARCHAR(3),
+    -> CourseDesc VARCHAR(14),
+    -> CourseType CHAR(1),
+    -> SemNo CHAR(1),
+    -> HallNo VARCHAR(4),
+    -> FacNo VARCHAR(4)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> ALTER TABLE FACULTY
+    -> ADD Dept VARCHAR(10);
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_dbmslab |
++-------------------+
+| course            |
+| department        |
+| faculty           |
+| student           |
++-------------------+
+4 rows in set (0.05 sec)
+
+mysql> DESC STUDENT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| regNo    | int         | YES  |     | NULL    |       |
+| Name     | varchar(15) | YES  |     | NULL    |       |
+| Gender   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| MobileNo | bigint      | YES  |     | NULL    |       |
+| City     | varchar(15) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> DESCRIBE STUDENT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| regNo    | int         | YES  |     | NULL    |       |
+| Name     | varchar(15) | YES  |     | NULL    |       |
+| Gender   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| MobileNo | bigint      | YES  |     | NULL    |       |
+| City     | varchar(15) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> DESCRIBE FACULTY;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| FacNo      | varchar(4)  | YES  |     | NULL    |       |
+| FacName    | varchar(15) | YES  |     | NULL    |       |
+| Gender     | char(1)     | YES  |     | NULL    |       |
+| DOB        | date        | YES  |     | NULL    |       |
+| DateOfJoin | date        | YES  |     | NULL    |       |
+| MobileNo   | bigint      | YES  |     | NULL    |       |
+| Dept       | varchar(10) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> DESCRIBE DEPARTMENT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| DeptNo   | varchar(4)  | YES  |     | NULL    |       |
+| DeptName | varchar(15) | YES  |     | NULL    |       |
+| DeptHead | varchar(4)  | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESCRIBE COURSE;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| CourseNo   | varchar(3)  | YES  |     | NULL    |       |
+| CourseDesc | varchar(14) | YES  |     | NULL    |       |
+| CourseType | char(1)     | YES  |     | NULL    |       |
+| SemNo      | char(1)     | YES  |     | NULL    |       |
+| HallNo     | varchar(4)  | YES  |     | NULL    |       |
+| FacNo      | varchar(4)  | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> DESCRIBE FACULTY;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| FacNo      | varchar(4)  | YES  |     | NULL    |       |
+| FacName    | varchar(15) | YES  |     | NULL    |       |
+| Gender     | char(1)     | YES  |     | NULL    |       |
+| DOB        | date        | YES  |     | NULL    |       |
+| DateOfJoin | date        | YES  |     | NULL    |       |
+| MobileNo   | bigint      | YES  |     | NULL    |       |
+| Dept       | varchar(10) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql>
