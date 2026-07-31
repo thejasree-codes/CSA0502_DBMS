@@ -1,0 +1,187 @@
+mysql> CREATE DATABASE CollegeDB;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE CollegeDB;
+Database changed
+mysql> CREATE TABLE Course
+    -> (
+    -> CourseNo VARCHAR(5) PRIMARY KEY,
+    -> CourseName VARCHAR(30),
+    -> CourseDesc VARCHAR(30),
+    -> CourseType VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO Course VALUES
+    -> ('C001','Computer Science 101','CSE','mandatory'),
+    -> ('C002','Mathematics 201','MAT','elective');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Course;
++----------+----------------------+------------+------------+
+| CourseNo | CourseName           | CourseDesc | CourseType |
++----------+----------------------+------------+------------+
+| C001     | Computer Science 101 | CSE        | mandatory  |
+| C002     | Mathematics 201      | MAT        | elective   |
++----------+----------------------+------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE TABLE StudentScores
+    -> (
+    -> StudentNo VARCHAR(5),
+    -> CourseNo VARCHAR(5),
+    -> CourseName VARCHAR(30),
+    -> CourseDesc VARCHAR(20),
+    -> Score INT
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO StudentScores VALUES
+    -> ('S001','C001','computersci','CSE',70),
+    -> ('S001','C002','probability','MAT',65),
+    -> ('S002','C001','computersci','CSE',80),
+    -> ('S002','C002','probability','MAT',75),
+    -> ('S003','C001','computersci','CSE',90),
+    -> ('S003','C002','probability','MAT',85);
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM StudentScores;
++-----------+----------+-------------+------------+-------+
+| StudentNo | CourseNo | CourseName  | CourseDesc | Score |
++-----------+----------+-------------+------------+-------+
+| S001      | C001     | computersci | CSE        |    70 |
+| S001      | C002     | probability | MAT        |    65 |
+| S002      | C001     | computersci | CSE        |    80 |
+| S002      | C002     | probability | MAT        |    75 |
+| S003      | C001     | computersci | CSE        |    90 |
+| S003      | C002     | probability | MAT        |    85 |
++-----------+----------+-------------+------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_collegedb |
++---------------------+
+| course              |
+| studentscores       |
++---------------------+
+2 rows in set (0.00 sec)
+
+mysql> DESC Course;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| CourseNo   | varchar(5)  | NO   | PRI | NULL    |       |
+| CourseName | varchar(30) | YES  |     | NULL    |       |
+| CourseDesc | varchar(30) | YES  |     | NULL    |       |
+| CourseType | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> DESC StudentScores;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| StudentNo  | varchar(5)  | YES  |     | NULL    |       |
+| CourseNo   | varchar(5)  | YES  |     | NULL    |       |
+| CourseName | varchar(30) | YES  |     | NULL    |       |
+| CourseDesc | varchar(20) | YES  |     | NULL    |       |
+| Score      | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT CourseType
+    -> FROM Course
+    -> WHERE CourseDesc IN ('Computer Science 101','Mathematics 201');
+Empty set (0.00 sec)
+
+mysql> SELECT CourseNo
+    -> FROM StudentScores
+    -> WHERE Score BETWEEN 50 AND 80;
++----------+
+| CourseNo |
++----------+
+| C001     |
+| C002     |
+| C001     |
+| C002     |
++----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT AVG(Score)
+    -> FROM StudentScores
+    -> WHERE CourseNo='C002';
++------------+
+| AVG(Score) |
++------------+
+|    75.0000 |
++------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT MAX(Score),MIN(Score)
+    -> FROM StudentScores
+    -> WHERE CourseNo='C002';
++------------+------------+
+| MAX(Score) | MIN(Score) |
++------------+------------+
+|         85 |         65 |
++------------+------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(Score),MIN(Score),AVG(Score)
+    -> FROM StudentScores
+    -> GROUP BY CourseName;
++------------+------------+------------+
+| MAX(Score) | MIN(Score) | AVG(Score) |
++------------+------------+------------+
+|         90 |         70 |    80.0000 |
+|         85 |         65 |    75.0000 |
++------------+------------+------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT CourseName,AVG(Score)
+    -> FROM StudentScores
+    -> GROUP BY CourseName;
++-------------+------------+
+| CourseName  | AVG(Score) |
++-------------+------------+
+| computersci |    80.0000 |
+| probability |    75.0000 |
++-------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT SUM(Score)
+    -> FROM StudentScores;
++------------+
+| SUM(Score) |
++------------+
+|        465 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CourseDesc,COUNT(StudentNo)
+    -> FROM StudentScores
+    -> GROUP BY CourseDesc;
++------------+------------------+
+| CourseDesc | COUNT(StudentNo) |
++------------+------------------+
+| CSE        |                3 |
+| MAT        |                3 |
++------------+------------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT StudentNo,COUNT(CourseName)
+    -> FROM StudentScores
+    -> GROUP BY StudentNo;
++-----------+-------------------+
+| StudentNo | COUNT(CourseName) |
++-----------+-------------------+
+| S001      |                 2 |
+| S002      |                 2 |
+| S003      |                 2 |
++-----------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql>

@@ -1,0 +1,257 @@
+mysql> CREATE DATABASE exp5;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> USE exp5;
+Database changed
+mysql> CREATE TABLE STUDENT(
+    -> RegNo INT PRIMARY KEY,
+    -> Name VARCHAR(20),
+    -> Gender CHAR(1),
+    -> DOB DATE,
+    -> MobileNo BIGINT,
+    -> City VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> CREATE TABLE FACULTY(
+    -> FacNo VARCHAR(7) PRIMARY KEY,
+    -> FacName VARCHAR(20),
+    -> Gender CHAR(1),
+    -> DOB DATE,
+    -> DOJ DATE,
+    -> MobileNo BIGINT,
+    -> Resigned CHAR(1),
+    -> Age INT
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE DEPARTMENT(
+    -> DeptNo VARCHAR(4),
+    -> DeptName VARCHAR(20),
+    -> DeptHead VARCHAR(7)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE COURSE(
+    -> CourseNo VARCHAR(4),
+    -> CourseDesc VARCHAR(20),
+    -> CourseType CHAR(1),
+    -> SemNo INT,
+    -> HallNo VARCHAR(5),
+    -> FacNo VARCHAR(7)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> SHOW TABLES;
++----------------+
+| Tables_in_exp5 |
++----------------+
+| course         |
+| department     |
+| faculty        |
+| student        |
++----------------+
+4 rows in set (0.01 sec)
+
+mysql> INSERT INTO STUDENT VALUES
+    -> (101,'Ramesh','M','2005-05-10',9876543210,'Salem'),
+    -> (102,'Suresh','M','2005-03-15',9876543211,'Chennai'),
+    -> (103,'Mahesh','M','2005-08-20',9876543212,'Salem'),
+    -> (104,'Asha','F','2005-02-25',9876543213,'Madurai'),
+    -> (105,'Kamal','M','2005-09-12',9876543214,'Salem');
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++-------+--------+--------+------------+------------+---------+
+| RegNo | Name   | Gender | DOB        | MobileNo   | City    |
++-------+--------+--------+------------+------------+---------+
+|   101 | Ramesh | M      | 2005-05-10 | 9876543210 | Salem   |
+|   102 | Suresh | M      | 2005-03-15 | 9876543211 | Chennai |
+|   103 | Mahesh | M      | 2005-08-20 | 9876543212 | Salem   |
+|   104 | Asha   | F      | 2005-02-25 | 9876543213 | Madurai |
+|   105 | Kamal  | M      | 2005-09-12 | 9876543214 | Salem   |
++-------+--------+--------+------------+------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO FACULTY VALUES
+    -> ('F001','Mohan','M','1980-01-12','2010-05-23',9900112233,'Y',45),
+    -> ('F002','Raju','M','1982-02-13','2009-06-25',9900112244,'Y',43),
+    -> ('F003','Ramesh','M','1985-03-14','2014-12-20',9900112255,'Y',40);
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM FACULTY;
++-------+---------+--------+------------+------------+------------+----------+------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   | Resigned | Age  |
++-------+---------+--------+------------+------------+------------+----------+------+
+| F001  | Mohan   | M      | 1980-01-12 | 2010-05-23 | 9900112233 | Y        |   45 |
+| F002  | Raju    | M      | 1982-02-13 | 2009-06-25 | 9900112244 | Y        |   43 |
+| F003  | Ramesh  | M      | 1985-03-14 | 2014-12-20 | 9900112255 | Y        |   40 |
++-------+---------+--------+------------+------------+------------+----------+------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO DEPARTMENT VALUES
+    -> ('D001','CSE','F001'),
+    -> ('D002','ECE','F002'),
+    -> ('D003','EEE','F003');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO DEPARTMENT VALUES
+    -> ('D001','CSE','F001'),
+    -> ('D002','ECE','F002'),
+    -> ('D003','EEE','F003');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM DEPARTMENT;
++--------+----------+----------+
+| DeptNo | DeptName | DeptHead |
++--------+----------+----------+
+| D001   | CSE      | F001     |
+| D002   | ECE      | F002     |
+| D003   | EEE      | F003     |
+| D001   | CSE      | F001     |
+| D002   | ECE      | F002     |
+| D003   | EEE      | F003     |
++--------+----------+----------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO COURSE VALUES
+    -> ('C001','Programming','T',1,'H001','F001'),
+    -> ('C002','Statistics','T',2,'H002','F002'),
+    -> ('C003','Networks','T',3,'H003','F003'),
+    -> ('C004','DBMS','T',4,'H001','F001'),
+    -> ('C005','Java','P',5,'H005','F002');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM COURSE;
++----------+-------------+------------+-------+--------+-------+
+| CourseNo | CourseDesc  | CourseType | SemNo | HallNo | FacNo |
++----------+-------------+------------+-------+--------+-------+
+| C001     | Programming | T          |     1 | H001   | F001  |
+| C002     | Statistics  | T          |     2 | H002   | F002  |
+| C003     | Networks    | T          |     3 | H003   | F003  |
+| C004     | DBMS        | T          |     4 | H001   | F001  |
+| C005     | Java        | P          |     5 | H005   | F002  |
++----------+-------------+------------+-------+--------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT RegNo, Name, DOB
+    -> FROM STUDENT;
++-------+--------+------------+
+| RegNo | Name   | DOB        |
++-------+--------+------------+
+|   101 | Ramesh | 2005-05-10 |
+|   102 | Suresh | 2005-03-15 |
+|   103 | Mahesh | 2005-08-20 |
+|   104 | Asha   | 2005-02-25 |
+|   105 | Kamal  | 2005-09-12 |
++-------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE Gender='F';
++-------+------+--------+------------+------------+---------+
+| RegNo | Name | Gender | DOB        | MobileNo   | City    |
++-------+------+--------+------------+------------+---------+
+|   104 | Asha | F      | 2005-02-25 | 9876543213 | Madurai |
++-------+------+--------+------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM COURSE
+    -> WHERE CourseNo='C001';
++----------+-------------+------------+-------+--------+-------+
+| CourseNo | CourseDesc  | CourseType | SemNo | HallNo | FacNo |
++----------+-------------+------------+-------+--------+-------+
+| C001     | Programming | T          |     1 | H001   | F001  |
++----------+-------------+------------+-------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM FACULTY
+    -> WHERE DOJ<'2014-11-01';
++-------+---------+--------+------------+------------+------------+----------+------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   | Resigned | Age  |
++-------+---------+--------+------------+------------+------------+----------+------+
+| F001  | Mohan   | M      | 1980-01-12 | 2010-05-23 | 9900112233 | Y        |   45 |
+| F002  | Raju    | M      | 1982-02-13 | 2009-06-25 | 9900112244 | Y        |   43 |
++-------+---------+--------+------------+------------+------------+----------+------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT *
+    -> FROM COURSE
+    -> WHERE HallNo<>'H001';
++----------+------------+------------+-------+--------+-------+
+| CourseNo | CourseDesc | CourseType | SemNo | HallNo | FacNo |
++----------+------------+------------+-------+--------+-------+
+| C002     | Statistics | T          |     2 | H002   | F002  |
+| C003     | Networks   | T          |     3 | H003   | F003  |
+| C005     | Java       | P          |     5 | H005   | F002  |
++----------+------------+------------+-------+--------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE Name LIKE '%sh';
++-------+--------+--------+------------+------------+---------+
+| RegNo | Name   | Gender | DOB        | MobileNo   | City    |
++-------+--------+--------+------------+------------+---------+
+|   101 | Ramesh | M      | 2005-05-10 | 9876543210 | Salem   |
+|   102 | Suresh | M      | 2005-03-15 | 9876543211 | Chennai |
+|   103 | Mahesh | M      | 2005-08-20 | 9876543212 | Salem   |
++-------+--------+--------+------------+------------+---------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE Name LIKE '%sh%';
++-------+--------+--------+------------+------------+---------+
+| RegNo | Name   | Gender | DOB        | MobileNo   | City    |
++-------+--------+--------+------------+------------+---------+
+|   101 | Ramesh | M      | 2005-05-10 | 9876543210 | Salem   |
+|   102 | Suresh | M      | 2005-03-15 | 9876543211 | Chennai |
+|   103 | Mahesh | M      | 2005-08-20 | 9876543212 | Salem   |
+|   104 | Asha   | F      | 2005-02-25 | 9876543213 | Madurai |
++-------+--------+--------+------------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE City LIKE '%Sal%';
++-------+--------+--------+------------+------------+-------+
+| RegNo | Name   | Gender | DOB        | MobileNo   | City  |
++-------+--------+--------+------------+------------+-------+
+|   101 | Ramesh | M      | 2005-05-10 | 9876543210 | Salem |
+|   103 | Mahesh | M      | 2005-08-20 | 9876543212 | Salem |
+|   105 | Kamal  | M      | 2005-09-12 | 9876543214 | Salem |
++-------+--------+--------+------------+------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE Name NOT LIKE '______';
++-------+-------+--------+------------+------------+---------+
+| RegNo | Name  | Gender | DOB        | MobileNo   | City    |
++-------+-------+--------+------------+------------+---------+
+|   104 | Asha  | F      | 2005-02-25 | 9876543213 | Madurai |
+|   105 | Kamal | M      | 2005-09-12 | 9876543214 | Salem   |
++-------+-------+--------+------------+------------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM STUDENT
+    -> WHERE Name LIKE '%am%';
++-------+--------+--------+------------+------------+-------+
+| RegNo | Name   | Gender | DOB        | MobileNo   | City  |
++-------+--------+--------+------------+------------+-------+
+|   101 | Ramesh | M      | 2005-05-10 | 9876543210 | Salem |
+|   105 | Kamal  | M      | 2005-09-12 | 9876543214 | Salem |
++-------+--------+--------+------------+------------+-------+
+2 rows in set (0.01 sec)
+
+mysql>
