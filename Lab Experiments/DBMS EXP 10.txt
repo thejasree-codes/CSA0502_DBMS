@@ -1,0 +1,464 @@
+mysql> USE DBMS_LAB;
+Database changed
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_dbms_lab |
++--------------------+
+| assessment         |
+| course             |
+| employees1         |
+| faculty            |
+| student            |
+| student_course     |
+| v1                 |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> SELECT * FROM employees1;
++-------------+------------+-----------+
+| employee_id | first_name | salary    |
++-------------+------------+-----------+
+|           1 | John       | 120000.00 |
+|           2 | David      | 150000.00 |
+|           3 | Robert     | 160000.00 |
+|           4 | James      | 140000.00 |
+|           5 | William    | 180000.00 |
+|           6 | Daniel     | 130000.00 |
+|           7 | Michael    | 155000.00 |
+|           8 | Thomas     | 170000.00 |
+|           9 | Joseph     | 145000.00 |
+|          10 | Charles    | 190000.00 |
++-------------+------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE TABLE employees1 (
+    ->     employee_id INT PRIMARY KEY,
+    ->     first_name VARCHAR(30),
+    ->     salary DECIMAL(10,2)
+    -> );
+ERROR 1050 (42S01): Table 'employees1' already exists
+mysql> INSERT INTO employees1 VALUES
+    -> (1,'John',120000),
+    -> (2,'David',150000),
+    -> (3,'Robert',160000),
+    -> (4,'James',140000),
+    -> (5,'William',180000),
+    -> (6,'Daniel',130000),
+    -> (7,'Michael',155000),
+    -> (8,'Thomas',170000),
+    -> (9,'Joseph',145000),
+    -> (10,'Charles',190000);
+ERROR 1062 (23000): Duplicate entry '1' for key 'employees1.PRIMARY'
+mysql> SELECT * FROM employees1;
++-------------+------------+-----------+
+| employee_id | first_name | salary    |
++-------------+------------+-----------+
+|           1 | John       | 120000.00 |
+|           2 | David      | 150000.00 |
+|           3 | Robert     | 160000.00 |
+|           4 | James      | 140000.00 |
+|           5 | William    | 180000.00 |
+|           6 | Daniel     | 130000.00 |
+|           7 | Michael    | 155000.00 |
+|           8 | Thomas     | 170000.00 |
+|           9 | Joseph     | 145000.00 |
+|          10 | Charles    | 190000.00 |
++-------------+------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE VIEW v1 AS
+    -> SELECT employee_id, salary
+    -> FROM employees1;
+ERROR 1050 (42S01): Table 'v1' already exists
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 160000.00 |
+|           4 | 140000.00 |
+|           5 | 180000.00 |
+|           6 | 130000.00 |
+|           7 | 155000.00 |
+|           8 | 170000.00 |
+|           9 | 145000.00 |
+|          10 | 190000.00 |
++-------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> INSERT INTO v1 VALUES (11,200000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 160000.00 |
+|           4 | 140000.00 |
+|           5 | 180000.00 |
+|           6 | 130000.00 |
+|           7 | 155000.00 |
+|           8 | 170000.00 |
+|           9 | 145000.00 |
+|          10 | 190000.00 |
+|          11 | 200000.00 |
++-------------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> DELETE FROM v1
+    -> WHERE employee_id = 11;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 160000.00 |
+|           4 | 140000.00 |
+|           5 | 180000.00 |
+|           6 | 130000.00 |
+|           7 | 155000.00 |
+|           8 | 170000.00 |
+|           9 | 145000.00 |
+|          10 | 190000.00 |
++-------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE INDEX index1
+    -> ON employees1(salary);
+ERROR 1061 (42000): Duplicate key name 'index1'
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employees1 |          1 | index1   |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT first_name
+    -> FROM employees1
+    -> WHERE salary > 145000;
++------------+
+| first_name |
++------------+
+| David      |
+| Robert     |
+| William    |
+| Michael    |
+| Thomas     |
+| Charles    |
++------------+
+6 rows in set (0.00 sec)
+
+mysql> DROP INDEX index1 ON employees1;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE INDEX index1
+    -> ON employees1(employee_id);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT first_name
+    -> FROM employees1
+    -> WHERE employee_id = 10;
++------------+
+| first_name |
++------------+
+| Charles    |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employees1 |          1 | index1   |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> USE DBMS_LAB;
+Database changed
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_dbms_lab |
++--------------------+
+| assessment         |
+| course             |
+| employees1         |
+| faculty            |
+| student            |
+| student_course     |
+| v1                 |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees1;
++-------------+------------+-----------+
+| employee_id | first_name | salary    |
++-------------+------------+-----------+
+|           1 | John       | 120000.00 |
+|           2 | David      | 150000.00 |
+|           3 | Robert     | 160000.00 |
+|           4 | James      | 140000.00 |
+|           5 | William    | 180000.00 |
+|           6 | Daniel     | 130000.00 |
+|           7 | Michael    | 155000.00 |
+|           8 | Thomas     | 170000.00 |
+|           9 | Joseph     | 145000.00 |
+|          10 | Charles    | 190000.00 |
++-------------+------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE VIEW v1 AS
+    -> SELECT employee_id, salary
+    -> FROM employees1;
+ERROR 1050 (42S01): Table 'v1' already exists
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 160000.00 |
+|           4 | 140000.00 |
+|           5 | 180000.00 |
+|           6 | 130000.00 |
+|           7 | 155000.00 |
+|           8 | 170000.00 |
+|           9 | 145000.00 |
+|          10 | 190000.00 |
++-------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> INSERT INTO v1 VALUES (11,200000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 160000.00 |
+|           4 | 140000.00 |
+|           5 | 180000.00 |
+|           6 | 130000.00 |
+|           7 | 155000.00 |
+|           8 | 170000.00 |
+|           9 | 145000.00 |
+|          10 | 190000.00 |
+|          11 | 200000.00 |
++-------------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> DELETE FROM v1
+    -> WHERE employee_id = 11;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 160000.00 |
+|           4 | 140000.00 |
+|           5 | 180000.00 |
+|           6 | 130000.00 |
+|           7 | 155000.00 |
+|           8 | 170000.00 |
+|           9 | 145000.00 |
+|          10 | 190000.00 |
++-------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE INDEX index1
+    -> ON employees1(salary);
+ERROR 1061 (42000): Duplicate key name 'index1'
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employees1 |          1 | index1   |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.01 sec)
+
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employees1 |          1 | index1   |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT first_name
+    -> FROM employees1
+    -> WHERE salary > 145000;
++------------+
+| first_name |
++------------+
+| David      |
+| Robert     |
+| William    |
+| Michael    |
+| Thomas     |
+| Charles    |
++------------+
+6 rows in set (0.00 sec)
+
+mysql> DROP INDEX index1 ON employees1;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> CREATE INDEX index1
+    -> ON employees1(employee_id);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT first_name
+    -> FROM employees1
+    -> WHERE employee_id = 10;
++------------+
+| first_name |
++------------+
+| Charles    |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employees1 |          1 | index1   |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE VIEW v1 AS
+    -> SELECT employee_id, salary
+    -> FROM employees1;
+ERROR 1050 (42S01): Table 'v1' already exists
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 160000.00 |
+|           4 | 140000.00 |
+|           5 | 180000.00 |
+|           6 | 130000.00 |
+|           7 | 155000.00 |
+|           8 | 170000.00 |
+|           9 | 145000.00 |
+|          10 | 190000.00 |
++-------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> INSERT INTO v1
+    -> VALUES (11, 200000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 160000.00 |
+|           4 | 140000.00 |
+|           5 | 180000.00 |
+|           6 | 130000.00 |
+|           7 | 155000.00 |
+|           8 | 170000.00 |
+|           9 | 145000.00 |
+|          10 | 190000.00 |
+|          11 | 200000.00 |
++-------------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> DELETE FROM v1
+    -> WHERE employee_id = 11;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM v1;
++-------------+-----------+
+| employee_id | salary    |
++-------------+-----------+
+|           1 | 120000.00 |
+|           2 | 150000.00 |
+|           3 | 160000.00 |
+|           4 | 140000.00 |
+|           5 | 180000.00 |
+|           6 | 130000.00 |
+|           7 | 155000.00 |
+|           8 | 170000.00 |
+|           9 | 145000.00 |
+|          10 | 190000.00 |
++-------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE INDEX index1
+    -> ON employees1(salary);
+ERROR 1061 (42000): Duplicate key name 'index1'
+mysql> SELECT first_name
+    -> FROM employees1
+    -> WHERE salary > 145000;
++------------+
+| first_name |
++------------+
+| David      |
+| Robert     |
+| William    |
+| Michael    |
+| Thomas     |
+| Charles    |
++------------+
+6 rows in set (0.00 sec)
+
+mysql> DROP INDEX index1
+    -> ON employees1;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> CREATE INDEX index1
+    -> ON employees1(employee_id);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT first_name
+    -> FROM employees1
+    -> WHERE employee_id = 10;
++------------+
+| first_name |
++------------+
+| Charles    |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW INDEX FROM employees1;
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table      | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employees1 |          0 | PRIMARY  |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employees1 |          1 | index1   |            1 | employee_id | A         |          10 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.01 sec)

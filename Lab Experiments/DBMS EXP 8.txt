@@ -1,0 +1,235 @@
+mysql> USE DBMS_LAB;
+Database changed
+mysql> CREATE DATABASE DBMS_LAB;
+ERROR 1007 (HY000): Can't create database 'dbms_lab'; database exists
+mysql> USE DBMS_LAB;
+Database changed
+mysql> CREATE TABLE STUDENT (
+    ->     RegNo INT PRIMARY KEY,
+    ->     Name VARCHAR(15),
+    ->     Gender CHAR(1),
+    ->     DOB DATE,
+    ->     MobileNo VARCHAR(15),
+    ->     City VARCHAR(15)
+    -> );
+ERROR 1050 (42S01): Table 'student' already exists
+mysql> CREATE TABLE COURSE (
+    ->     CourseNo VARCHAR(3) PRIMARY KEY,
+    ->     CourseDesc VARCHAR(14),
+    ->     CourseType CHAR(1),
+    ->     SemNo CHAR(1),
+    ->     HallNo VARCHAR(4),
+    ->     FacNo VARCHAR(4)
+    -> );
+ERROR 1050 (42S01): Table 'course' already exists
+mysql> CREATE TABLE FACULTY (
+    ->     FacNo VARCHAR(4) PRIMARY KEY,
+    ->     FacName VARCHAR(15),
+    ->     Gender CHAR(1),
+    ->     DOB DATE,
+    ->     DOJ DATE,
+    ->     MobileNo VARCHAR(15),
+    ->     Dept VARCHAR(10)
+    -> );
+ERROR 1050 (42S01): Table 'faculty' already exists
+mysql> CREATE TABLE ASSESSMENT (
+    ->     AssessmentID INT PRIMARY KEY,
+    ->     RegNo INT,
+    ->     CourseNo VARCHAR(3),
+    ->     TestNo INT,
+    ->     Score INT,
+    ->     FOREIGN KEY (RegNo) REFERENCES STUDENT(RegNo),
+    ->     FOREIGN KEY (CourseNo) REFERENCES COURSE(CourseNo)
+    -> );
+ERROR 1050 (42S01): Table 'assessment' already exists
+mysql> INSERT INTO STUDENT VALUES
+    -> (101,'Arun','M','2004-05-10','9876543210','Chennai'),
+    -> (102,'Priya','F','2004-08-15','9876543211','Salem'),
+    -> (103,'Kamal','M','2003-12-20','9876543212','Salem'),
+    -> (104,'Divya','F','2004-03-25','9876543213','Bangalore'),
+    -> (105,'Harish','M','2003-11-05','9876543214','Hyderabad');
+ERROR 1062 (23000): Duplicate entry '101' for key 'student.PRIMARY'
+mysql> SELECT * FROM STUDENT;
++-------+--------+--------+------------+------------+-----------+
+| RegNo | Name   | Gender | DOB        | MobileNo   | City      |
++-------+--------+--------+------------+------------+-----------+
+|   101 | Arun   | M      | 2004-05-10 | 9876543210 | Salem     |
+|   102 | Priya  | F      | 2004-08-15 | 9876543211 | Chennai   |
+|   103 | Kamal  | M      | 2003-12-20 | 9876543212 | Salem     |
+|   104 | Divya  | F      | 2004-03-25 | 9876543213 | Bangalore |
+|   105 | Harish | M      | 2003-11-05 | 9876543214 | Hyderabad |
++-------+--------+--------+------------+------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO COURSE VALUES
+    -> ('C01','Programming','T','1','H001','F001'),
+    -> ('C02','Statistics','T','2','H002','F002'),
+    -> ('C03','Database','T','3','H003','F003'),
+    -> ('C04','Mathematics','T','4','H004','F001');
+ERROR 1062 (23000): Duplicate entry 'C01' for key 'course.PRIMARY'
+mysql> SELECT * FROM COURSE;
++----------+-------------+------------+-------+--------+-------+
+| CourseNo | CourseDesc  | CourseType | SemNo | HallNo | FacNo |
++----------+-------------+------------+-------+--------+-------+
+| C001     | Programming | T          |     1 | H001   | F001  |
+| C002     | Statistics  | T          |     2 | H002   | F002  |
+| C003     | Database    | T          |     3 | H003   | F003  |
+| C004     | Mathematics | T          |     4 | H004   | F001  |
+| C01      | Programming | T          |     1 | H001   | F001  |
+| C02      | Statistics  | T          |     2 | H002   | F002  |
+| C03      | Database    | T          |     3 | H003   | F003  |
+| C04      | Mathematics | T          |     4 | H004   | F001  |
++----------+-------------+------------+-------+--------+-------+
+8 rows in set (0.00 sec)
+
+mysql> INSERT INTO FACULTY VALUES
+    -> ('F001','Ravi','M','1975-05-10','2005-06-15','9000000001','CSE'),
+    -> ('F002','Kamal','M','1970-03-12','2000-07-20','9000000002','ECE'),
+    -> ('F003','Priya','F','1980-09-18','2010-08-10','9000000003','CSE'),
+    -> ('F004','Mohan','M','1968-04-20','1998-05-10','9000000004','ECE');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> SELECT * FROM FACULTY;
++-------+---------+--------+------------+------------+------------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   |
++-------+---------+--------+------------+------------+------------+
+| F001  | Ravi    | M      | 1975-05-10 | 2005-06-15 | 9000000001 |
+| F002  | Kamal   | M      | 1970-03-12 | 2000-07-20 | 9000000002 |
+| F003  | Priya   | F      | 1980-09-18 | 2010-08-10 | 9000000003 |
++-------+---------+--------+------------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO ASSESSMENT VALUES
+    -> (1,101,'C01',1,75),
+    -> (2,101,'C01',2,80),
+    -> (3,101,'C02',1,65),
+    -> (4,102,'C01',1,55),
+    -> (5,102,'C02',1,70),
+    -> (6,102,'C03',1,60),
+    -> (7,103,'C01',1,90),
+    -> (8,103,'C02',1,85),
+    -> (9,104,'C03',1,45),
+    -> (10,105,'C04',1,50),
+    -> (11,105,'C04',2,60);
+ERROR 1062 (23000): Duplicate entry '1' for key 'assessment.PRIMARY'
+mysql> SELECT * FROM ASSESSMENT;
++--------------+-------+----------+--------+-------+
+| AssessmentID | RegNo | CourseNo | TestNo | Score |
++--------------+-------+----------+--------+-------+
+|            1 |   101 | C01      |      1 |    75 |
+|            2 |   101 | C01      |      2 |    80 |
+|            3 |   101 | C02      |      1 |    65 |
+|            4 |   102 | C01      |      1 |    55 |
+|            5 |   102 | C02      |      1 |    70 |
+|            6 |   102 | C03      |      1 |    60 |
+|            7 |   103 | C01      |      1 |    90 |
+|            8 |   103 | C02      |      1 |    85 |
+|            9 |   104 | C03      |      1 |    45 |
+|           10 |   105 | C04      |      1 |    50 |
+|           11 |   105 | C04      |      2 |    60 |
++--------------+-------+----------+--------+-------+
+11 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> SELECT s.Name, a.CourseNo, a.Score
+    -> FROM STUDENT s
+    -> JOIN ASSESSMENT a
+    -> ON s.RegNo = a.RegNo
+    -> WHERE a.Score > (
+    ->     SELECT AVG(Score)
+    ->     FROM ASSESSMENT
+    -> );
++-------+----------+-------+
+| Name  | CourseNo | Score |
++-------+----------+-------+
+| Arun  | C01      |    75 |
+| Arun  | C01      |    80 |
+| Priya | C02      |    70 |
+| Kamal | C01      |    90 |
+| Kamal | C02      |    85 |
++-------+----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT AVG(Score)
+    -> FROM ASSESSMENT;
++------------+
+| AVG(Score) |
++------------+
+|    66.8182 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT s.RegNo, s.Name
+    -> FROM STUDENT s
+    -> WHERE (
+    ->     SELECT COUNT(*)
+    ->     FROM ASSESSMENT a
+    ->     WHERE a.RegNo = s.RegNo
+    -> ) > 1;
++-------+--------+
+| RegNo | Name   |
++-------+--------+
+|   101 | Arun   |
+|   102 | Priya  |
+|   103 | Kamal  |
+|   105 | Harish |
++-------+--------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT FacName, DOJ
+    -> FROM FACULTY
+    -> WHERE DOJ = (
+    ->     SELECT MAX(DOJ)
+    ->     FROM FACULTY
+    -> );
++---------+------------+
+| FacName | DOJ        |
++---------+------------+
+| Priya   | 2010-08-10 |
++---------+------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT MAX(DOJ)
+    -> FROM FACULTY;
++------------+
+| MAX(DOJ)   |
++------------+
+| 2010-08-10 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CourseNo, Score
+    -> FROM ASSESSMENT a
+    -> WHERE Score > (
+    ->     SELECT AVG(Score)
+    ->     FROM ASSESSMENT b
+    ->     WHERE b.CourseNo = a.CourseNo
+    -> );
++----------+-------+
+| CourseNo | Score |
++----------+-------+
+| C01      |    80 |
+| C03      |    60 |
+| C01      |    90 |
+| C02      |    85 |
+| C04      |    60 |
++----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT s.Name, a.CourseNo, a.Score
+    -> FROM STUDENT s
+    -> JOIN ASSESSMENT a
+    -> ON s.RegNo = a.RegNo
+    -> WHERE a.Score > (
+    ->     SELECT AVG(Score)
+    ->     FROM ASSESSMENT
+    -> );
++-------+----------+-------+
+| Name  | CourseNo | Score |
++-------+----------+-------+
+| Arun  | C01      |    75 |
+| Arun  | C01      |    80 |
+| Priya | C02      |    70 |
+| Kamal | C01      |    90 |
+| Kamal | C02      |    85 |
++-------+----------+-------+
+5 rows in set (0.00 sec)

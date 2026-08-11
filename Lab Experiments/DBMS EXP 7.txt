@@ -1,0 +1,188 @@
+mysql> CREATE DATABASE DBMS_LAB;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> USE DBMS_LAB;
+Database changed
+mysql> CREATE TABLE STUDENT (
+    ->     RegNo INT PRIMARY KEY,
+    ->     Name VARCHAR(30),
+    ->     Gender CHAR(1),
+    ->     DOB DATE,
+    ->     MobileNo VARCHAR(15),
+    ->     City VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> CREATE TABLE COURSE (
+    ->     CourseNo VARCHAR(5) PRIMARY KEY,
+    ->     CourseDesc VARCHAR(30),
+    ->     CourseType CHAR(1),
+    ->     SemNo INT,
+    ->     HallNo VARCHAR(5),
+    ->     FacNo VARCHAR(5)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE FACULTY (
+    ->     FacNo VARCHAR(5) PRIMARY KEY,
+    ->     FacName VARCHAR(30),
+    ->     Gender CHAR(1),
+    ->     DOB DATE,
+    ->     DOJ DATE,
+    ->     MobileNo VARCHAR(15)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE STUDENT_COURSE (
+    ->     RegNo INT,
+    ->     CourseNo VARCHAR(5),
+    ->     PRIMARY KEY (RegNo, CourseNo),
+    ->     FOREIGN KEY (RegNo) REFERENCES STUDENT(RegNo),
+    ->     FOREIGN KEY (CourseNo) REFERENCES COURSE(CourseNo)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO STUDENT VALUES
+    -> (101,'Arun','M','2004-05-10','9876543210','Salem'),
+    -> (102,'Priya','F','2004-08-15','9876543211','Chennai'),
+    -> (103,'Kamal','M','2003-12-20','9876543212','Salem'),
+    -> (104,'Divya','F','2004-03-25','9876543213','Bangalore'),
+    -> (105,'Harish','M','2003-11-05','9876543214','Hyderabad');
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO COURSE VALUES
+    -> ('C001','Programming','T',1,'H001','F001'),
+    -> ('C002','Statistics','T',2,'H002','F002'),
+    -> ('C003','Database','T',3,'H003','F003'),
+    -> ('C004','Mathematics','T',4,'H004','F001');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO FACULTY VALUES
+    -> ('F001','Ravi','M','1975-05-10','2005-06-15','9000000001'),
+    -> ('F002','Kamal','M','1970-03-12','2000-07-20','9000000002'),
+    -> ('F003','Priya','F','1980-09-18','2010-08-10','9000000003');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO STUDENT_COURSE VALUES
+    -> (101,'C001'),
+    -> (101,'C002'),
+    -> (102,'C001'),
+    -> (102,'C003'),
+    -> (103,'C001'),
+    -> (104,'C002'),
+    -> (104,'C003'),
+    -> (105,'C001'),
+    -> (105,'C004');
+Query OK, 9 rows affected (0.01 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++-------+--------+--------+------------+------------+-----------+
+| RegNo | Name   | Gender | DOB        | MobileNo   | City      |
++-------+--------+--------+------------+------------+-----------+
+|   101 | Arun   | M      | 2004-05-10 | 9876543210 | Salem     |
+|   102 | Priya  | F      | 2004-08-15 | 9876543211 | Chennai   |
+|   103 | Kamal  | M      | 2003-12-20 | 9876543212 | Salem     |
+|   104 | Divya  | F      | 2004-03-25 | 9876543213 | Bangalore |
+|   105 | Harish | M      | 2003-11-05 | 9876543214 | Hyderabad |
++-------+--------+--------+------------+------------+-----------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT * FROM COURSE;
++----------+-------------+------------+-------+--------+-------+
+| CourseNo | CourseDesc  | CourseType | SemNo | HallNo | FacNo |
++----------+-------------+------------+-------+--------+-------+
+| C001     | Programming | T          |     1 | H001   | F001  |
+| C002     | Statistics  | T          |     2 | H002   | F002  |
+| C003     | Database    | T          |     3 | H003   | F003  |
+| C004     | Mathematics | T          |     4 | H004   | F001  |
++----------+-------------+------------+-------+--------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM FACULTY;
++-------+---------+--------+------------+------------+------------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   |
++-------+---------+--------+------------+------------+------------+
+| F001  | Ravi    | M      | 1975-05-10 | 2005-06-15 | 9000000001 |
+| F002  | Kamal   | M      | 1970-03-12 | 2000-07-20 | 9000000002 |
+| F003  | Priya   | F      | 1980-09-18 | 2010-08-10 | 9000000003 |
++-------+---------+--------+------------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM STUDENT_COURSE;
++-------+----------+
+| RegNo | CourseNo |
++-------+----------+
+|   101 | C001     |
+|   102 | C001     |
+|   103 | C001     |
+|   105 | C001     |
+|   101 | C002     |
+|   104 | C002     |
+|   102 | C003     |
+|   104 | C003     |
+|   105 | C004     |
++-------+----------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT c.CourseDesc, COUNT(sc.RegNo) AS Number_of_Students
+    -> FROM COURSE c
+    -> JOIN STUDENT_COURSE sc
+    -> ON c.CourseNo = sc.CourseNo
+    -> GROUP BY c.CourseNo, c.CourseDesc;
++-------------+--------------------+
+| CourseDesc  | Number_of_Students |
++-------------+--------------------+
+| Programming |                  4 |
+| Statistics  |                  2 |
+| Database    |                  2 |
+| Mathematics |                  1 |
++-------------+--------------------+
+4 rows in set (0.02 sec)
+
+mysql> SELECT s.Name, COUNT(sc.CourseNo) AS Number_of_Courses
+    -> FROM STUDENT s
+    -> JOIN STUDENT_COURSE sc
+    -> ON s.RegNo = sc.RegNo
+    -> GROUP BY s.RegNo, s.Name;
++--------+-------------------+
+| Name   | Number_of_Courses |
++--------+-------------------+
+| Arun   |                 2 |
+| Priya  |                 2 |
+| Kamal  |                 1 |
+| Divya  |                 2 |
+| Harish |                 2 |
++--------+-------------------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT Name, Gender, MobileNo
+    -> FROM STUDENT
+    -> ORDER BY RegNo ASC;
++--------+--------+------------+
+| Name   | Gender | MobileNo   |
++--------+--------+------------+
+| Arun   | M      | 9876543210 |
+| Priya  | F      | 9876543211 |
+| Kamal  | M      | 9876543212 |
+| Divya  | F      | 9876543213 |
+| Harish | M      | 9876543214 |
++--------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM FACULTY
+    -> ORDER BY DOB ASC;
++-------+---------+--------+------------+------------+------------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   |
++-------+---------+--------+------------+------------+------------+
+| F002  | Kamal   | M      | 1970-03-12 | 2000-07-20 | 9000000002 |
+| F001  | Ravi    | M      | 1975-05-10 | 2005-06-15 | 9000000001 |
+| F003  | Priya   | F      | 1980-09-18 | 2010-08-10 | 9000000003 |
++-------+---------+--------+------------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql>

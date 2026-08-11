@@ -1,0 +1,157 @@
+mysql> USE DBMS_LAB;
+Database changed
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_dbms_lab |
++--------------------+
+| assessment         |
+| course             |
+| employees1         |
+| faculty            |
+| student            |
+| student_course     |
+| v1                 |
++--------------------+
+7 rows in set (0.02 sec)
+
+mysql> SELECT DISTINCT Dept
+    -> FROM FACULTY;
+ERROR 1054 (42S22): Unknown column 'Dept' in 'field list'
+mysql> DESCRIBE FACULTY;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| FacNo    | varchar(5)  | NO   | PRI | NULL    |       |
+| FacName  | varchar(30) | YES  |     | NULL    |       |
+| Gender   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| DOJ      | date        | YES  |     | NULL    |       |
+| MobileNo | varchar(15) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> ALTER TABLE FACULTY
+    -> ADD Dept VARCHAR(10);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE FACULTY;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| FacNo    | varchar(5)  | NO   | PRI | NULL    |       |
+| FacName  | varchar(30) | YES  |     | NULL    |       |
+| Gender   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| DOJ      | date        | YES  |     | NULL    |       |
+| MobileNo | varchar(15) | YES  |     | NULL    |       |
+| Dept     | varchar(10) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM FACULTY;
++-------+---------+--------+------------+------------+------------+------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   | Dept |
++-------+---------+--------+------------+------------+------------+------+
+| F001  | Ravi    | M      | 1975-05-10 | 2005-06-15 | 9000000001 | NULL |
+| F002  | Kamal   | M      | 1970-03-12 | 2000-07-20 | 9000000002 | NULL |
+| F003  | Priya   | F      | 1980-09-18 | 2010-08-10 | 9000000003 | NULL |
++-------+---------+--------+------------+------------+------------+------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM FACULTY;
++-------+---------+--------+------------+------------+------------+------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   | Dept |
++-------+---------+--------+------------+------------+------------+------+
+| F001  | Ravi    | M      | 1975-05-10 | 2005-06-15 | 9000000001 | NULL |
+| F002  | Kamal   | M      | 1970-03-12 | 2000-07-20 | 9000000002 | NULL |
+| F003  | Priya   | F      | 1980-09-18 | 2010-08-10 | 9000000003 | NULL |
++-------+---------+--------+------------+------------+------------+------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE FACULTY SET Dept = 'CSE' WHERE FacNo = 'F001';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE FACULTY SET Dept = 'ECE' WHERE FacNo = 'F002';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE FACULTY SET Dept = 'CSE' WHERE FacNo = 'F003';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE FACULTY SET Dept = 'ECE' WHERE FacNo = 'F004';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> SELECT * FROM FACULTY;
++-------+---------+--------+------------+------------+------------+------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   | Dept |
++-------+---------+--------+------------+------------+------------+------+
+| F001  | Ravi    | M      | 1975-05-10 | 2005-06-15 | 9000000001 | CSE  |
+| F002  | Kamal   | M      | 1970-03-12 | 2000-07-20 | 9000000002 | ECE  |
+| F003  | Priya   | F      | 1980-09-18 | 2010-08-10 | 9000000003 | CSE  |
++-------+---------+--------+------------+------------+------------+------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT Dept
+    -> FROM FACULTY;
++------+
+| Dept |
++------+
+| CSE  |
+| ECE  |
++------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT s.Name, sc.CourseNo
+    -> FROM STUDENT s
+    -> JOIN STUDENT_COURSE sc
+    -> ON s.RegNo = sc.RegNo
+    -> LEFT JOIN ASSESSMENT a
+    -> ON sc.RegNo = a.RegNo
+    -> AND sc.CourseNo = a.CourseNo
+    -> WHERE a.Score IS NULL;
++--------+----------+
+| Name   | CourseNo |
++--------+----------+
+| Arun   | C001     |
+| Priya  | C001     |
+| Kamal  | C001     |
+| Harish | C001     |
+| Arun   | C002     |
+| Divya  | C002     |
+| Priya  | C003     |
+| Divya  | C003     |
+| Harish | C004     |
++--------+----------+
+9 rows in set (0.01 sec)
+
+mysql> SELECT c.CourseDesc
+    -> FROM FACULTY f
+    -> JOIN COURSE c
+    -> ON f.FacNo = c.FacNo
+    -> WHERE f.Dept = 'ECE'
+    -> AND f.FacName = 'Kamal';
++------------+
+| CourseDesc |
++------------+
+| Statistics |
+| Statistics |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT c.CourseDesc
+    -> FROM FACULTY f
+    -> JOIN COURSE c
+    -> ON f.FacNo = c.FacNo
+    -> WHERE f.Dept = 'ECE'
+    -> AND f.FacName = 'Kamal';
++------------+
+| CourseDesc |
++------------+
+| Statistics |
+| Statistics |
++------------+
+2 rows in set (0.00 sec)

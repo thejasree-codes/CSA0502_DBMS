@@ -1,0 +1,190 @@
+mysql> CREATE TABLE DBMS_Stud (
+    ->     RegNo INT AUTO_INCREMENT PRIMARY KEY,
+    ->     Name VARCHAR(30),
+    ->     Gender CHAR(1)
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> USE DBMS_LAB;
+Database changed
+mysql> SHOW TABLES;
++--------------------+
+| Tables_in_dbms_lab |
++--------------------+
+| assessment         |
+| course             |
+| employees1         |
+| faculty            |
+| student            |
+| student_course     |
+| v1                 |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> SELECT * FROM DBMS_Stud;
+ERROR 1146 (42S02): Table 'dbms_lab.dbms_stud' doesn't exist
+mysql> CREATE TABLE DBMS_Stud (
+    ->     RegNo INT AUTO_INCREMENT PRIMARY KEY,
+    ->     Name VARCHAR(30),
+    ->     Gender CHAR(1)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> DESCRIBE DBMS_Stud;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| RegNo  | int         | NO   | PRI | NULL    | auto_increment |
+| Name   | varchar(30) | YES  |     | NULL    |                |
+| Gender | char(1)     | YES  |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Arun','M');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Priya','F');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Kamal','M');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Divya','F');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Harish','M');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM DBMS_Stud;
++-------+--------+--------+
+| RegNo | Name   | Gender |
++-------+--------+--------+
+|     1 | Arun   | M      |
+|     2 | Priya  | F      |
+|     3 | Kamal  | M      |
+|     4 | Divya  | F      |
+|     5 | Harish | M      |
++-------+--------+--------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO DBMS_Stud (RegNo, Name, Gender)
+    -> VALUES (10, 'Rahul', 'M');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM DBMS_Stud;
++-------+--------+--------+
+| RegNo | Name   | Gender |
++-------+--------+--------+
+|     1 | Arun   | M      |
+|     2 | Priya  | F      |
+|     3 | Kamal  | M      |
+|     4 | Divya  | F      |
+|     5 | Harish | M      |
+|    10 | Rahul  | M      |
++-------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE DBMS_Stud
+    -> MODIFY RegNo INT;
+Query OK, 6 rows affected (0.09 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE DBMS_Stud;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| RegNo  | int         | NO   | PRI | NULL    |       |
+| Name   | varchar(30) | YES  |     | NULL    |       |
+| Gender | char(1)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM DBMS_Stud;
++-------+--------+--------+
+| RegNo | Name   | Gender |
++-------+--------+--------+
+|     1 | Arun   | M      |
+|     2 | Priya  | F      |
+|     3 | Kamal  | M      |
+|     4 | Divya  | F      |
+|     5 | Harish | M      |
+|    10 | Rahul  | M      |
++-------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE TABLE DBMS_Stud (
+    ->     RegNo INT AUTO_INCREMENT PRIMARY KEY,
+    ->     Name VARCHAR(30),
+    ->     Gender CHAR(1)
+    -> );
+ERROR 1050 (42S01): Table 'dbms_stud' already exists
+mysql>
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Arun','M');
+ERROR 1364 (HY000): Field 'RegNo' doesn't have a default value
+mysql>
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Priya','F');
+ERROR 1364 (HY000): Field 'RegNo' doesn't have a default value
+mysql>
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Kamal','M');
+ERROR 1364 (HY000): Field 'RegNo' doesn't have a default value
+mysql>
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Divya','F');
+ERROR 1364 (HY000): Field 'RegNo' doesn't have a default value
+mysql>
+mysql> INSERT INTO DBMS_Stud (Name, Gender)
+    -> VALUES ('Harish','M');
+ERROR 1364 (HY000): Field 'RegNo' doesn't have a default value
+mysql>
+mysql> SELECT * FROM DBMS_Stud;
++-------+--------+--------+
+| RegNo | Name   | Gender |
++-------+--------+--------+
+|     1 | Arun   | M      |
+|     2 | Priya  | F      |
+|     3 | Kamal  | M      |
+|     4 | Divya  | F      |
+|     5 | Harish | M      |
+|    10 | Rahul  | M      |
++-------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO DBMS_Stud (RegNo, Name, Gender)
+    -> VALUES (10, 'Rahul', 'M');
+ERROR 1062 (23000): Duplicate entry '10' for key 'dbms_stud.PRIMARY'
+mysql>
+mysql> SELECT * FROM DBMS_Stud;
++-------+--------+--------+
+| RegNo | Name   | Gender |
++-------+--------+--------+
+|     1 | Arun   | M      |
+|     2 | Priya  | F      |
+|     3 | Kamal  | M      |
+|     4 | Divya  | F      |
+|     5 | Harish | M      |
+|    10 | Rahul  | M      |
++-------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE DBMS_Stud
+    -> MODIFY RegNo INT;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> DESCRIBE DBMS_Stud;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| RegNo  | int         | NO   | PRI | NULL    |       |
+| Name   | varchar(30) | YES  |     | NULL    |       |
+| Gender | char(1)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)

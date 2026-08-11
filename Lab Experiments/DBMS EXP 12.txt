@@ -1,0 +1,118 @@
+mysql> USE DBMS_LAB;
+Database changed
+mysql> DELIMITER //
+mysql> CREATE FUNCTION while_function()
+    -> RETURNS VARCHAR(100)
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE x INT DEFAULT 1;
+    ->     DECLARE result_string VARCHAR(100) DEFAULT '';
+    ->
+    ->     WHILE x <= 5 DO
+    ->         SET result_string = CONCAT(result_string, x, ' ');
+    ->         SET x = x + 1;
+    ->     END WHILE;
+    ->
+    ->     RETURN result_string;
+    -> END//
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> DELIMITER ;
+mysql> SELECT while_function();
++------------------+
+| while_function() |
++------------------+
+| 1 2 3 4 5        |
++------------------+
+1 row in set (0.01 sec)
+
+mysql> DELIMITER //
+mysql> CREATE FUNCTION repeat_function()
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE income INT DEFAULT 1000;
+    ->
+    ->     REPEAT
+    ->         SET income = income + 1000;
+    ->     UNTIL income >= 4000
+    ->     END REPEAT;
+    ->
+    ->     RETURN income;
+    -> END//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> SELECT repeat_function();
++-------------------+
+| repeat_function() |
++-------------------+
+|              4000 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> DELIMITER //
+mysql>
+mysql> CREATE FUNCTION while_function()
+    -> RETURNS VARCHAR(100)
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE x INT DEFAULT 1;
+    ->     DECLARE result_string VARCHAR(100) DEFAULT '';
+    ->
+    ->     WHILE x <= 5 DO
+    ->         SET result_string = CONCAT(result_string, x, ' ');
+    ->         SET x = x + 1;
+    ->     END WHILE;
+    ->
+    ->     RETURN result_string;
+    -> END//
+ERROR 1304 (42000): FUNCTION while_function already exists
+mysql>
+mysql> DELIMITER ;
+mysql>
+mysql> SELECT while_function();
++------------------+
+| while_function() |
++------------------+
+| 1 2 3 4 5        |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> DELIMITER //
+mysql>
+mysql> CREATE FUNCTION repeat_function()
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE income INT DEFAULT 1000;
+    ->
+    ->     REPEAT
+    ->         SET income = income + 1000;
+    ->     UNTIL income >= 4000
+    ->     END REPEAT;
+    ->
+    ->     RETURN income;
+    -> END//
+ERROR 1304 (42000): FUNCTION repeat_function already exists
+mysql>
+mysql> DELIMITER ;
+mysql>
+mysql> SELECT repeat_function();
++-------------------+
+| repeat_function() |
++-------------------+
+|              4000 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> DROP FUNCTION IF EXISTS while_function;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DROP FUNCTION IF EXISTS repeat_function;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT while_function();
+ERROR 1305 (42000): FUNCTION dbms_lab.while_function does not exist
+mysql> SELECT repeat_function();
+ERROR 1305 (42000): FUNCTION dbms_lab.repeat_function does not exist
