@@ -1,0 +1,198 @@
+mysql> CREATE DATABASE labdb21;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE labdb21;
+Database changed
+mysql> SELECT 'start', SPACE(20),'end';
++-------+----------------------+-----+
+| start | SPACE(20)            | end |
++-------+----------------------+-----+
+| start |                      | end |
++-------+----------------------+-----+
+1 row in set (0.01 sec)
+
+mysql> SELECT substr("Database",5,4);
++------------------------+
+| substr("Database",5,4) |
++------------------------+
+| base                   |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT substr("Database",5);
++----------------------+
+| substr("Database",5) |
++----------------------+
+| base                 |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT substr("Database",-5);
++-----------------------+
+| substr("Database",-5) |
++-----------------------+
+| abase                 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT UPPER('database');
++-------------------+
+| UPPER('database') |
++-------------------+
+| DATABASE          |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT lower('DATABASE');
++-------------------+
+| lower('DATABASE') |
++-------------------+
+| database          |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT TRIM(' DATABASE      ');
++-------------------------+
+| TRIM(' DATABASE      ') |
++-------------------------+
+| DATABASE                |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT TRIM('        DATABASE        ');
++----------------------------------+
+| TRIM('        DATABASE        ') |
++----------------------------------+
+| DATABASE                         |
++----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT TRIM(LEADING "DATABASE" FROM "DATABASE MANAGEMENT");
++-----------------------------------------------------+
+| TRIM(LEADING "DATABASE" FROM "DATABASE MANAGEMENT") |
++-----------------------------------------------------+
+|  MANAGEMENT                                         |
++-----------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT RTRIM('Database        ');
++---------------------------+
+| RTRIM('Database        ') |
++---------------------------+
+| Database                  |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT LTRIM('        Database');
++---------------------------+
+| LTRIM('        Database') |
++---------------------------+
+| Database                  |
++---------------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT LENGTH('abc');
++---------------+
+| LENGTH('abc') |
++---------------+
+|             3 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT LENGTH(123);
++-------------+
+| LENGTH(123) |
++-------------+
+|           3 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT BIT_LENGTH('abc');
++-------------------+
+| BIT_LENGTH('abc') |
++-------------------+
+|                24 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT BIT_LENGTH(2);
++---------------+
+| BIT_LENGTH(2) |
++---------------+
+|             8 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CHAR_LENGTH('abc');
++--------------------+
+| CHAR_LENGTH('abc') |
++--------------------+
+|                  3 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CHAR_LENGTH(123);
++------------------+
+| CHAR_LENGTH(123) |
++------------------+
+|                3 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONCAT('data','base','system');
++--------------------------------+
+| CONCAT('data','base','system') |
++--------------------------------+
+| databasesystem                 |
++--------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT INSTR('database','ab');
++------------------------+
+| INSTR('database','ab') |
++------------------------+
+|                      4 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT INSTR('database','a');
++-----------------------+
+| INSTR('database','a') |
++-----------------------+
+|                     2 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT LOCATE('ab','database');
++-------------------------+
+| LOCATE('ab','database') |
++-------------------------+
+|                       4 |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MID('Database',5,4);
++---------------------+
+| MID('Database',5,4) |
++---------------------+
+| base                |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MID('Database',1,4);
++---------------------+
+| MID('Database',1,4) |
++---------------------+
+| Data                |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT POSITION("ta" IN "Database");
++------------------------------+
+| POSITION("ta" IN "Database") |
++------------------------------+
+|                            3 |
++------------------------------+
+1 row in set (0.00 sec)
+
+mysql>

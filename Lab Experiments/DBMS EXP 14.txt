@@ -1,0 +1,217 @@
+mysql> USE DBMS_LAB;
+Database changed
+mysql> CREATE TABLE class (
+    ->     name VARCHAR(30),
+    ->     id INT
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> INSERT INTO class VALUES
+    -> ('alpha',1),
+    -> ('beta',2),
+    -> ('charlie',3),
+    -> ('delta',4),
+    -> ('alice',5);
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM class;
++---------+------+
+| name    | id   |
++---------+------+
+| alpha   |    1 |
+| beta    |    2 |
+| charlie |    3 |
+| delta   |    4 |
+| alice   |    5 |
++---------+------+
+5 rows in set (0.00 sec)
+
+mysql> UPDATE class SET name ='bravo' WHERE id ='5';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE class
+    -> SET name = 'bravo'
+    -> WHERE id = 5;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> SELECT * FROM class;
++---------+------+
+| name    | id   |
++---------+------+
+| alpha   |    1 |
+| beta    |    2 |
+| charlie |    3 |
+| delta   |    4 |
+| bravo   |    5 |
++---------+------+
+5 rows in set (0.00 sec)
+
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO class VALUES('uppal', 6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO class VALUES ('uppal', 6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM class;
++---------+------+
+| name    | id   |
++---------+------+
+| alpha   |    1 |
+| beta    |    2 |
+| charlie |    3 |
+| delta   |    4 |
+| bravo   |    5 |
+| uppal   |    6 |
+| uppal   |    6 |
++---------+------+
+7 rows in set (0.00 sec)
+
+mysql> SAVEPOINT B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO class VALUES('balu', 7);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO class VALUES ('balu', 7);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM class;
++---------+------+
+| name    | id   |
++---------+------+
+| alpha   |    1 |
+| beta    |    2 |
+| charlie |    3 |
+| delta   |    4 |
+| bravo   |    5 |
+| uppal   |    6 |
+| uppal   |    6 |
+| balu    |    7 |
+| balu    |    7 |
++---------+------+
+9 rows in set (0.00 sec)
+
+mysql> SAVEPOINT C;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE class SET name ='bravo' WHERE id ='5';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO class VALUES('uppal', 6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SAVEPOINT B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO class VALUES('balu', 7);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SAVEPOINT C;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE class SET name ='bravo' WHERE id ='5';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> INSERT INTO class VALUES('uppal', 6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO class VALUES('balu', 7);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM class;
++---------+------+
+| name    | id   |
++---------+------+
+| alpha   |    1 |
+| beta    |    2 |
+| charlie |    3 |
+| delta   |    4 |
+| bravo   |    5 |
+| uppal   |    6 |
+| uppal   |    6 |
+| balu    |    7 |
+| balu    |    7 |
+| uppal   |    6 |
+| balu    |    7 |
+| uppal   |    6 |
+| balu    |    7 |
++---------+------+
+13 rows in set (0.00 sec)
+
+mysql> DROP TABLE class;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE class(name VARCHAR(10), id INT(5));
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+mysql> INSERT INTO class VALUES('dj',5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE class SET name='bravo' WHERE id='5';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO class VALUES('uppal',6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SAVEPOINT B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO class VALUES('balu',7);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SAVEPOINT C;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM class;
++-------+------+
+| name  | id   |
++-------+------+
+| bravo |    5 |
+| uppal |    6 |
+| balu  |    7 |
++-------+------+
+3 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO B;
+ERROR 1305 (42000): SAVEPOINT B does not exist
+mysql> SELECT * FROM class;
++-------+------+
+| name  | id   |
++-------+------+
+| bravo |    5 |
+| uppal |    6 |
+| balu  |    7 |
++-------+------+
+3 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO A;
+ERROR 1305 (42000): SAVEPOINT A does not exist
+mysql> SELECT * FROM class;
++-------+------+
+| name  | id   |
++-------+------+
+| bravo |    5 |
+| uppal |    6 |
+| balu  |    7 |
++-------+------+
+3 rows in set (0.00 sec)
+
+mysql>

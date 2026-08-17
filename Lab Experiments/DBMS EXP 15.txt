@@ -1,0 +1,87 @@
+mysql> USE DBMS_LAB;
+Database changed
+mysql> DROP PROCEDURE IF EXISTS student_info;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DROP TABLE IF EXISTS student_info;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE student_info
+    -> (
+    ->     stuid INT,
+    ->     name VARCHAR(20),
+    ->     area VARCHAR(20),
+    ->     subject VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO student_info VALUES
+    -> (201,'raj','chennai','dbms'),
+    -> (202,'rahul','hyderabad','ooad'),
+    -> (203,'rakhi','mumbai','java'),
+    -> (204,'vikas','kochi','python');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM student_info;
++-------+-------+-----------+---------+
+| stuid | name  | area      | subject |
++-------+-------+-----------+---------+
+|   201 | raj   | chennai   | dbms    |
+|   202 | rahul | hyderabad | ooad    |
+|   203 | rakhi | mumbai    | java    |
+|   204 | vikas | kochi     | python  |
++-------+-------+-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE student_info()
+    -> BEGIN
+    ->     SELECT * FROM student_info;
+    -> END$$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> CALL student_info();
++-------+-------+-----------+---------+
+| stuid | name  | area      | subject |
++-------+-------+-----------+---------+
+|   201 | raj   | chennai   | dbms    |
+|   202 | rahul | hyderabad | ooad    |
+|   203 | rakhi | mumbai    | java    |
+|   204 | vikas | kochi     | python  |
++-------+-------+-----------+---------+
+4 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DELIMITER $$
+mysql> DROP PROCEDURE IF EXISTS GetCustomerLevel$$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE PROCEDURE GetCustomerLevel(
+    ->     IN p_customerNumber INT(11),
+    ->     OUT p_customerLevel VARCHAR(10)
+    -> )
+    -> BEGIN
+    ->     DECLARE creditLimit DOUBLE;
+    ->
+    ->     SELECT creditLimit INTO creditLimit
+    ->     FROM customers
+    ->     WHERE customerNumber = p_customerNumber;
+    ->
+    ->     IF creditLimit > 50000 THEN
+    ->         SET p_customerLevel = 'PLATINUM';
+    ->
+    ->     ELSEIF (creditLimit <= 50000 AND creditLimit >= 10000) THEN
+    ->         SET p_customerLevel = 'GOLD';
+    ->
+    ->     ELSEIF creditLimit < 10000 THEN
+    ->         SET p_customerLevel = 'SILVER';
+    ->
+    ->     END IF;
+    -> END$$
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> DELIMITER ;
+mysql>

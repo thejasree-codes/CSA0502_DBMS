@@ -1,0 +1,56 @@
+mysql> CREATE DATABASE labdb19;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE labdb19;
+Database changed
+mysql> CREATE TABLE student(
+    ->     id INT,
+    ->     Name VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO student VALUES (1, 'Harry Potter');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student VALUES (2, 'Clark Kent');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student VALUES (3, 'Tony Stark');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> CREATE TABLE student_audit(
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     student_id INT,
+    ->     lastname VARCHAR(100),
+    ->     changedat DATETIME,
+    ->     action VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER before_student_update
+    -> BEFORE UPDATE ON student
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO student_audit
+    ->     SET action = 'update',
+    ->         student_id = OLD.id,
+    ->         lastname = OLD.Name,
+    ->         changedat = NOW();
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> UPDATE student SET Name = 'tony stark_c' WHERE id = 3;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM student_audit;
++----+------------+------------+---------------------+--------+
+| id | student_id | lastname   | changedat           | action |
++----+------------+------------+---------------------+--------+
+|  1 |          3 | Tony Stark | 2026-08-14 09:33:10 | update |
++----+------------+------------+---------------------+--------+
+1 row in set (0.00 sec)
+
+mysql>

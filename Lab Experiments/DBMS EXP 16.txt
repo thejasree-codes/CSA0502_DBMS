@@ -1,0 +1,88 @@
+mysql> CREATE DATABASE labdb;
+Query OK, 1 row affected (0.32 sec)
+
+mysql> USE labdb;
+Database changed
+mysql> CREATE TABLE student_info (
+    ->     stuid INT,
+    ->     name VARCHAR(50),
+    ->     area VARCHAR(50),
+    ->     subject VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql>
+mysql> INSERT INTO student_info VALUES
+    -> (201,'raj','chennai','dbms'),
+    -> (202,'rahul','hyderabad','ooad'),
+    -> (203,'rahim','mumbai','java'),
+    -> (204,'vikas','kochi','python');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE PROCEDURE student_info_proc()
+    -> SELECT * FROM student_info;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> CALL student_info_proc();
++-------+-------+-----------+---------+
+| stuid | name  | area      | subject |
++-------+-------+-----------+---------+
+|   201 | raj   | chennai   | dbms    |
+|   202 | rahul | hyderabad | ooad    |
+|   203 | rahim | mumbai    | java    |
+|   204 | vikas | kochi     | python  |
++-------+-------+-----------+---------+
+4 rows in set (0.01 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE customers (
+    ->     customerNumber INT,
+    ->     creditlimit DOUBLE
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql>
+mysql> INSERT INTO customers VALUES
+    -> (1, 60000),
+    -> (2, 25000),
+    -> (3, 5000);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE GetCustomerLevel(
+    ->     IN  p_customerNumber INT(11),
+    ->     OUT p_customerLevel  VARCHAR(10))
+    -> BEGIN
+    ->     DECLARE creditlim DOUBLE;
+    ->
+    ->     SELECT creditlimit INTO creditlim
+    ->     FROM customers
+    ->     WHERE customerNumber = p_customerNumber;
+    ->
+    ->     IF creditlim > 50000 THEN
+    ->         SET p_customerLevel = 'PLATINUM';
+    ->     ELSEIF (creditlim <= 50000 AND creditlim >= 10000) THEN
+    ->         SET p_customerLevel = 'GOLD';
+    ->     ELSEIF creditlim < 10000 THEN
+    ->         SET p_customerLevel = 'SILVER';
+    ->     END IF;
+    -> END$$
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> CALL GetCustomerLevel(1, @level);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT @level;
++----------+
+| @level   |
++----------+
+| PLATINUM |
++----------+
+1 row in set (0.00 sec)
+
+mysql>

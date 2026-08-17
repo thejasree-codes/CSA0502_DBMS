@@ -1,0 +1,125 @@
+mysql> CREATE DATABASE labdb20;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE labdb20;
+Database changed
+mysql> SELECT Replace("Database Management Systems","Management","");
++--------------------------------------------------------+
+| Replace("Database Management Systems","Management","") |
++--------------------------------------------------------+
+| Database  Systems                                      |
++--------------------------------------------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT REPEAT('DBMS',10);
++------------------------------------------+
+| REPEAT('DBMS',10)                        |
++------------------------------------------+
+| DBMSDBMSDBMSDBMSDBMSDBMSDBMSDBMSDBMSDBMS |
++------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT REPEAT(' DBMS ',10);
++--------------------------------------------------------------+
+| REPEAT(' DBMS ',10)                                          |
++--------------------------------------------------------------+
+|  DBMS  DBMS  DBMS  DBMS  DBMS  DBMS  DBMS  DBMS  DBMS  DBMS  |
++--------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Reverse("Database");
++---------------------+
+| Reverse("Database") |
++---------------------+
+| esabataD            |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Right("Database",4);
++---------------------+
+| Right("Database",4) |
++---------------------+
+| base                |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> +----------------------+
+    -> | LEFT('Database', 5)  |
+    -> +----------------------+
+    -> | Datab                |
+    -> +----------------------+
+    -> 1 row in set (0.00 sec)
+    -> ^C
+mysql> SELECT Rpad("Database",14,'#');
++-------------------------+
+| Rpad("Database",14,'#') |
++-------------------------+
+| Database######          |
++-------------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT LPAD('Database',20,'$');
++-------------------------+
+| LPAD('Database',20,'$') |
++-------------------------+
+| $$$$$$$$$$$$Database    |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT LPAD('Database',4,'$');
++------------------------+
+| LPAD('Database',4,'$') |
++------------------------+
+| Data                   |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT ASCII(12);
++-----------+
+| ASCII(12) |
++-----------+
+|        49 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT ASCII('12');
++-------------+
+| ASCII('12') |
++-------------+
+|          49 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT ASCII('a');
++------------+
+| ASCII('a') |
++------------+
+|         97 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT BIN(02);
++---------+
+| BIN(02) |
++---------+
+| 10      |
++---------+
+1 row in set (0.01 sec)
+
+mysql> SELECT BIN(11);
++---------+
+| BIN(11) |
++---------+
+| 1011    |
++---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT OCT(8);
++--------+
+| OCT(8) |
++--------+
+| 10     |
++--------+
+1 row in set (0.00 sec)
+
+mysql>
